@@ -1,77 +1,83 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+$(document).ready(function(){
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    var d = new Date();
+    var dateNow = d.getDate() + "-" +(d.getMonth()+1) + "-" +(d.getYear()+1900);
+    var timeNow = d.getHours()+":"+d.getMinutes();
+    var activityName = "";
+    var location = "";
+    var time = "";
+    var date = "";
+    var reporterName = "";
+    var dateRegex = "/^(?:(0[1-9]|1[012])[\/.](0[1-9]|[12][0-9]|3[01])[\/.](19|20)[0-9]{2})$/";
+    //var timeRegex = "^\\d{2}:\\d{2}$";
+    $("#date").val(dateNow);
+    $("#time").val(timeNow);
 
-        console.log('Received Event: ' + id);
-    },
-    onDeviceReady: function() {
-         window.plugins.toast.showLongBottom('Use the back button to return to main.');
-         document.getElementById("btnAdd").addEventListener("click", app.addItem);
-         document.getElementById("btnToast").addEventListener("click", app.showToast);
-         document.getElementById("btnDeviceInfo").addEventListener("click", app.showDeviceInfo);
-         document.getElementById("btnUrl").addEventListener("click", app.openWeb);
-         app.receivedEvent('deviceready');
-      },
-    addItem: function() {
-        console.log("Plugin ADD ITEM CALLED " + HybridBridge);
-        var item = document.getElementById("bookmark").value;
-        HybridBridge.addItem(item,function(){console.log("Hybrid Bridge Success")},function(e){console.log("Hybrid Bridge Error" + e)});
-     },
-     showDeviceInfo: function(){
-        var message = 'Cordova version: ' + device.cordova;
-        message += '\n\nDevice Model: ' + device.model;
-        message += '\n\nDevice Version (Android): ' + device.version;
-        alert(message);
-     },
-     showToast: function(){
-        window.plugins.toast.showShortCenter('PHONEGAP IS AWESOME!!!');
-     },
-     openWeb: function(){
-        var url = "http://phonegap.com"
-        window.open(url)
-     }
-};
+    $("#activityName").change(function(){
+        activityName = $("#activityName").val();
+        if(activityName.length > 0){
+            $(".error-activity-name").html("");
+        }else{
+            $(".error-activity-name").html("Activity Name is not blank.");
+        }
+    });
 
-app.initialize();
+    $("#location").change(function(){
+            location = $("#location").val();
+            if(location.length > 0){
+                $(".error-location").html("");
+            }else{
+                $(".error-location").html("Location is not blank.");
+            }
+    });
+
+    $("#time").change(function(){
+                time = $("#time").val();
+                if(time.length > 0){
+                    $(".error-time").html("");
+                }else{
+                    $(".error-time").html("Time is not blank.");
+                }
+        });
+
+    $("#date").change(function(){
+                date = $("#date").val();
+                if(date.length > 0){
+                    $(".error-date").html("");
+                }else{
+                    $(".error-date").html("Date is not blank.");
+                }
+        });
+
+    $("#reporterName").change(function(){
+                reporterName = $("#reporterName").val();
+                if(reporterName.length > 0){
+                    $(".error-reporter").html("");
+                }else{
+                    $(".error-reporter").html("Reporter Name is not blank.");
+                }
+        });
+
+
+    $("#btnSubmit").click(function(){
+        activityName = $("#activityName").val();
+        location = $("#location").val();
+        time = $("#time").val();
+        date = $("#date").val();
+        reporterName = $("#reporterName").val();
+        var isValidate = false;
+
+        if(activityName.length > 0 && location.length > 0 && time.length > 0 && date.length > 0 && reporterName.length > 0){
+            isValidate = true;
+        }else{
+            isValidate = false;
+        }
+
+        if(isValidate){
+            alert("Validation Success");
+        }else{
+            alert("Validation Fail");
+        }
+
+    });
+});
